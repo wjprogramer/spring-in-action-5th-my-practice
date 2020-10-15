@@ -10,13 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import java.util.stream.Collectors
 
+
 @Slf4j
 @Controller
 @RequestMapping("/design")
 class DesignTacoController {
 
     @GetMapping
-    open fun showDesignForm(model: Model): String? {
+    fun showDesignForm(model: Model): String {
         val ingredients = listOf(
                 Ingredient("FLTO", "Flour Tortilla", Type.WRAP),
                 Ingredient("COTO", "Corn Tortilla", Type.WRAP),
@@ -34,15 +35,16 @@ class DesignTacoController {
         for (type in types) {
             model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type))
         }
-        model.addAttribute("design", Taco())
+        model.addAttribute("design", Taco("", listOf()))
         return "design"
     }
 
-    private fun filterByType(
-            ingredients: List<Ingredient>, type: Type): MutableList<Any>? {
+    private fun filterByType(ingredients: List<Ingredient>, type: Type): MutableList<Ingredient>? {
         return ingredients
                 .stream()
                 .filter { x: Ingredient -> x.type == type }
-                .collect(Collectors.toList<Any>())
+                .collect(Collectors.toList())
     }
+
+
 }
