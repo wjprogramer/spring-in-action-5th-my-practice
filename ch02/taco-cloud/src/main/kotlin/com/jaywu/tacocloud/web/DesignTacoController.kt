@@ -4,6 +4,7 @@ import com.jaywu.tacocloud.Ingredient
 import com.jaywu.tacocloud.Ingredient.Companion.Type
 import com.jaywu.tacocloud.Taco
 import lombok.extern.slf4j.Slf4j
+import mu.KotlinLogging
 import org.slf4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -13,14 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import java.util.stream.Collectors
 
+private val logger = KotlinLogging.logger {}
 
-@Slf4j
 @Controller
 @RequestMapping("/design")
 class DesignTacoController {
-
-    @Autowired
-    private lateinit var logger: Logger
 
     @GetMapping
     fun showDesignForm(model: Model): String {
