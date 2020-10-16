@@ -3,10 +3,7 @@ package com.jaywu.tacocloud.web
 import com.jaywu.tacocloud.Ingredient
 import com.jaywu.tacocloud.Ingredient.Companion.Type
 import com.jaywu.tacocloud.Taco
-import lombok.extern.slf4j.Slf4j
 import mu.KotlinLogging
-import org.slf4j.Logger
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
