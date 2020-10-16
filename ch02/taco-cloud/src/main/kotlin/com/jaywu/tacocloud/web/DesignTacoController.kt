@@ -4,9 +4,12 @@ import com.jaywu.tacocloud.Ingredient
 import com.jaywu.tacocloud.Ingredient.Companion.Type
 import com.jaywu.tacocloud.Taco
 import lombok.extern.slf4j.Slf4j
+import org.slf4j.Logger
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import java.util.stream.Collectors
 
@@ -15,6 +18,9 @@ import java.util.stream.Collectors
 @Controller
 @RequestMapping("/design")
 class DesignTacoController {
+
+    @Autowired
+    private lateinit var logger: Logger
 
     @GetMapping
     fun showDesignForm(model: Model): String {
@@ -44,6 +50,15 @@ class DesignTacoController {
                 .stream()
                 .filter { x: Ingredient -> x.type == type }
                 .collect(Collectors.toList())
+    }
+
+    @PostMapping
+    fun processDesign(design: Taco): String {
+        // Save the taco design...
+        // We'll do this in chapter 3
+        logger.info("Processing design: $design")
+
+        return "redirect:/orders/current"
     }
 
 
