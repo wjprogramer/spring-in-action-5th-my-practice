@@ -6,10 +6,12 @@ import com.jaywu.tacocloud.Taco
 import mu.KotlinLogging
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.validation.Errors
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import java.util.stream.Collectors
+import javax.validation.Valid
 
 private val logger = KotlinLogging.logger {}
 
@@ -48,7 +50,11 @@ class DesignTacoController {
     }
 
     @PostMapping
-    fun processDesign(design: Taco): String {
+    fun processDesign(@Valid design: Taco, errors: Errors): String {
+        if (errors.hasErrors()) {
+            return "design"
+        }
+
         // Save the taco design...
         // We'll do this in chapter 3
         logger.info("Processing design: $design")

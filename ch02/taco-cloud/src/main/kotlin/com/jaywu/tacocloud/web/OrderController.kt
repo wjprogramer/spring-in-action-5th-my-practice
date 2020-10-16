@@ -4,9 +4,11 @@ import com.jaywu.tacocloud.Order
 import mu.KotlinLogging
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.validation.Errors
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import javax.validation.Valid
 
 private val logger = KotlinLogging.logger {}
 
@@ -21,7 +23,11 @@ class OrderController {
     }
 
     @PostMapping
-    fun processOrder(order: Order): String {
+    fun processOrder(@Valid order: Order, errors: Errors): String {
+        if (errors.hasErrors()) {
+            return "orderForm"
+        }
+
         logger.info { "Order submitted: $order" }
         return "redirect:/"
     }
