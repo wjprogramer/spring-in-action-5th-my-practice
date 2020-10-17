@@ -6,26 +6,27 @@ import org.hibernate.validator.constraints.CreditCardNumber
 import java.util.*
 import javax.validation.constraints.Digits
 import javax.validation.constraints.Pattern
+import kotlin.collections.ArrayList
 
 data class Order(
         var id: Long = -1L,
 
-        var createdAt: Date? = null,
+        var placedAt: Date? = null,
 
-        @field:NotBlank(message="Name is required")
-        var name: String = "",
+        @field:NotBlank(message="Delivery name is required")
+        var deliveryName: String = "",
 
         @field:NotBlank(message="Street is required")
-        var street: String = "",
+        var deliveryStreet: String = "",
 
         @field:NotBlank(message="City is required")
-        var city: String = "",
+        var deliveryCity: String = "",
 
         @field:NotBlank(message="State is required")
-        var state: String = "",
+        var deliveryState: String = "",
 
         @field:NotBlank(message="Zip code is required")
-        var zip: String = "",
+        var deliveryZip: String = "",
 
         @field:CreditCardNumber(message="Not a valid credit card number")
         var ccNumber: String = "",
@@ -35,7 +36,13 @@ data class Order(
         var ccExpiration: String = "",
 
         @field:Digits(integer=3, fraction=0, message="Invalid CVV")
-        var ccCVV: String = ""
+        var ccCVV: String = "",
+
+        var tacos: ArrayList<Taco> = arrayListOf()
 ) {
+
+        fun addDesign(design: Taco) {
+                tacos.add(design)
+        }
 
 }

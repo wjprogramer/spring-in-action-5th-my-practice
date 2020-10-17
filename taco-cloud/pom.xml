@@ -101,6 +101,8 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
+			<!-- 1.4.198 ~ 1.4.200 好像都有問題 -->
+			<version>1.4.197</version>
 		</dependency>
 	</dependencies>
 

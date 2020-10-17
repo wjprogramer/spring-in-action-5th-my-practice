@@ -5,6 +5,7 @@ import com.jaywu.tacocloud.Ingredient.Companion.Type
 import com.jaywu.tacocloud.Order
 import com.jaywu.tacocloud.Taco
 import com.jaywu.tacocloud.data.IngredientRepository
+import com.jaywu.tacocloud.data.TacoRepository
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -22,7 +23,10 @@ private val logger = KotlinLogging.logger {}
 @Controller
 @RequestMapping("/design")
 @SessionAttributes("order")
-class DesignTacoController @Autowired constructor(private val ingredientRepo: IngredientRepository) {
+class DesignTacoController @Autowired constructor(
+        private val ingredientRepo: IngredientRepository,
+        private var designRepo: TacoRepository
+) {
 
     @ModelAttribute(name = "order")
     fun order(): Order {
@@ -50,13 +54,16 @@ class DesignTacoController @Autowired constructor(private val ingredientRepo: In
 
     @PostMapping
     fun processDesign(
-            @Valid @ModelAttribute("design") design: Taco,
+            @Valid design: Taco,
             errors: Errors,
-            model: Model
+            @ModelAttribute order: Order
     ): String {
         if (errors.hasErrors()) {
             return "design"
         }
+
+        val saved = designRepo.save(design)
+        order.addDesign(saved)
 
         logger.info("Processing design: $design")
 
@@ -101,4 +108,19 @@ class DesignTacoController @Autowired constructor(private val ingredientRepo: In
 //    fun showDesignForm(model: Model): String {
 //        model.addAttribute("design", Taco())
 //        return "design"
+//    }
+//
+//    @PostMapping
+//    fun processDesign(
+//            @Valid @ModelAttribute("design") design: Taco,
+//            errors: Errors,
+//            model: Model
+//    ): String {
+//        if (errors.hasErrors()) {
+//            return "design"
+//        }
+//
+//        logger.info("Processing design: $design")
+//
+//        return "redirect:/orders/current"
 //    }
