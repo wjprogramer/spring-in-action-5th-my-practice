@@ -19,7 +19,7 @@ private val logger = KotlinLogging.logger {}
 @Controller
 @RequestMapping("/orders")
 @SessionAttributes("order")
-class OrderController constructor(private val orderRepo: OrderRepository) {
+class OrderController @Autowired constructor(private val orderRepo: OrderRepository) {
 
     @GetMapping("/current")
     fun orderForm(): String {

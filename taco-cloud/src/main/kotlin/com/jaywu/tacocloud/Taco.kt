@@ -1,12 +1,17 @@
 package com.jaywu.tacocloud
 
 import java.util.*
-import javax.validation.constraints.Size
+import javax.persistence.*
 import javax.validation.constraints.NotNull
+import javax.validation.constraints.Size
 
+@Entity
 data class Taco(
-        var id: Long = -1L,
+        @field:Id
+        @GeneratedValue(strategy = GenerationType.AUTO)
+        var id: Long? = null,
 
+        @field:Column(name = "createdAt")
         var createdAt: Date? = null,
 
         @field:NotNull
@@ -15,5 +20,16 @@ data class Taco(
 
         @field:NotNull
         @field:Size(min = 1, message = "You must choose at least 1 ingredient")
-        var ingredients: List<Ingredient> = listOf(),
-)
+        @field:ManyToMany(targetEntity = Ingredient::class)
+        @JoinTable(
+                name = "Taco_Ingredients",
+                joinColumns = [ JoinColumn(name = "taco") ],
+                inverseJoinColumns = [ JoinColumn(name = "ingredient") ]
+        )
+        var ingredients: List<Ingredient> = arrayListOf(),
+) {
+        @PrePersist
+        fun createdAt() {
+                createdAt = Date()
+        }
+}

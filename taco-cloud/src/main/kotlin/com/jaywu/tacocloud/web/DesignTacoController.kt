@@ -4,8 +4,8 @@ import com.jaywu.tacocloud.Ingredient
 import com.jaywu.tacocloud.Ingredient.Companion.Type
 import com.jaywu.tacocloud.Order
 import com.jaywu.tacocloud.Taco
-import com.jaywu.tacocloud.data.IngredientRepository
-import com.jaywu.tacocloud.data.TacoRepository
+import com.jaywu.tacocloud.data.jpa.JpaIngredientRepository
+import com.jaywu.tacocloud.data.jpa.JpaTacoRepository
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -24,8 +24,8 @@ private val logger = KotlinLogging.logger {}
 @RequestMapping("/design")
 @SessionAttributes("order")
 class DesignTacoController @Autowired constructor(
-        private val ingredientRepo: IngredientRepository,
-        private var designRepo: TacoRepository
+        private val ingredientRepo: JpaIngredientRepository,
+        private var designRepo: JpaTacoRepository
 ) {
 
     @ModelAttribute(name = "order")
@@ -40,14 +40,7 @@ class DesignTacoController @Autowired constructor(
 
     @GetMapping
     fun showDesignForm(model: Model): String {
-        val ingredients: MutableList<Ingredient> = ArrayList()
-        ingredientRepo.findAll().forEach(Consumer { i: Ingredient -> ingredients.add(i) })
-
-        val types: Array<Type> = Ingredient.Companion.Type.values()
-        for (type in types) {
-            model.addAttribute(type.toString().toLowerCase(),
-                    filterByType(ingredients, type))
-        }
+        loadIngredients(model)
 
         return "design"
     }
@@ -56,9 +49,11 @@ class DesignTacoController @Autowired constructor(
     fun processDesign(
             @Valid design: Taco,
             errors: Errors,
+            model: Model,
             @ModelAttribute order: Order
     ): String {
         if (errors.hasErrors()) {
+            loadIngredients(model)
             return "design"
         }
 
@@ -75,6 +70,18 @@ class DesignTacoController @Autowired constructor(
                 .stream()
                 .filter { x: Ingredient -> x.type == type }
                 .collect(Collectors.toList())
+    }
+
+    private fun loadIngredients(model: Model) {
+        val ingredients: MutableList<Ingredient> = ArrayList()
+
+        ingredientRepo.findAll().forEach(Consumer { i: Ingredient -> ingredients.add(i) })
+
+        val types: Array<Type> = Ingredient.Companion.Type.values()
+        for (type in types) {
+            model.addAttribute(type.toString().toLowerCase(),
+                    filterByType(ingredients, type))
+        }
     }
 }
 
