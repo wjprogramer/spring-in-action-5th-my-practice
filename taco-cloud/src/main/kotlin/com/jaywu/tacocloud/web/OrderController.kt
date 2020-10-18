@@ -21,14 +21,7 @@ private val logger = KotlinLogging.logger {}
 @Controller
 @RequestMapping("/orders")
 @SessionAttributes("order")
-@ConfigurationProperties(prefix = "taco.orders")
-class OrderController @Autowired constructor(private val orderRepo: JpaOrderRepository) {
-
-    private var pageSize = 20
-
-    fun setPageSize(pageSize: Int) {
-        this.pageSize = pageSize
-    }
+class OrderController @Autowired constructor(private val orderRepo: JpaOrderRepository, private val props: OrderProps) {
 
     @GetMapping("/current")
     fun orderForm(@AuthenticationPrincipal user: User,
@@ -76,7 +69,7 @@ class OrderController @Autowired constructor(private val orderRepo: JpaOrderRepo
         model: Model
     ): String {
 
-        val pageable = PageRequest.of(0,  pageSize)
+        val pageable = PageRequest.of(0,  props.pageSize)
         model.addAttribute("orders",
             orderRepo.findByUserOrderByPlacedAtDesc(user, pageable))
 
