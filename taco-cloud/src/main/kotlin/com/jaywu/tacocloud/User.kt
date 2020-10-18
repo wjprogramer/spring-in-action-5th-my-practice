@@ -10,12 +10,12 @@ import javax.persistence.*
 data class User(
     private val username: String = "",
     private val password: String = "",
-    private val fullname: String? = null,
-    private val street: String? = null,
-    private val city: String? = null,
-    private val state: String? = null,
-    private val zip: String? = null,
-    private val phoneNumber: String? = null,
+    val fullname: String = "",
+    val street: String = "",
+    val city: String = "",
+    val state: String = "",
+    val zip: String = "",
+    val phoneNumber: String = "",
 ): UserDetails {
 
     @Id

@@ -1,9 +1,11 @@
 package com.jaywu.tacocloud.web
 
 import com.jaywu.tacocloud.Order
+import com.jaywu.tacocloud.User
 import com.jaywu.tacocloud.data.OrderRepository
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.Errors
@@ -27,10 +29,15 @@ class OrderController @Autowired constructor(private val orderRepo: OrderReposit
     }
 
     @PostMapping
-    fun processOrder(@Valid order: Order, errors: Errors, sessionStatus: SessionStatus): String {
+    fun processOrder(
+        @Valid order: Order, errors: Errors, sessionStatus: SessionStatus,
+        @AuthenticationPrincipal user: User
+    ): String {
         if (errors.hasErrors()) {
             return "orderForm"
         }
+
+        order.user = user
 
         orderRepo.save(order)
         sessionStatus.setComplete()

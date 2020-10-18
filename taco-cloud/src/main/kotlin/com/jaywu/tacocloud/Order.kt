@@ -3,6 +3,7 @@ package com.jaywu.tacocloud
 import lombok.AccessLevel
 import lombok.NoArgsConstructor
 import org.hibernate.validator.constraints.CreditCardNumber
+import java.io.Serializable
 import java.util.*
 import javax.persistence.*
 import javax.validation.constraints.Digits
@@ -45,8 +46,11 @@ data class Order(
         var ccCVV: String = "",
 
         @ManyToMany(targetEntity = Taco::class)
-        var tacos: MutableList<Taco> = mutableListOf()
-) {
+        var tacos: MutableList<Taco> = mutableListOf(),
+
+        @ManyToOne
+        var user: User? = null
+): Serializable {
 
         companion object {
                 private const val serialVersionUID = 1L

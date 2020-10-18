@@ -4,14 +4,17 @@ import com.jaywu.tacocloud.Ingredient
 import com.jaywu.tacocloud.Ingredient.Companion.Type
 import com.jaywu.tacocloud.Order
 import com.jaywu.tacocloud.Taco
+import com.jaywu.tacocloud.User
 import com.jaywu.tacocloud.data.jpa.JpaIngredientRepository
 import com.jaywu.tacocloud.data.jpa.JpaTacoRepository
+import com.jaywu.tacocloud.data.jpa.UserRepository
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.Errors
 import org.springframework.web.bind.annotation.*
+import java.security.Principal
 import java.util.*
 import java.util.function.Consumer
 import java.util.stream.Collectors
@@ -24,8 +27,9 @@ private val logger = KotlinLogging.logger {}
 @RequestMapping("/design")
 @SessionAttributes("order")
 class DesignTacoController @Autowired constructor(
-        private val ingredientRepo: JpaIngredientRepository,
-        private var designRepo: JpaTacoRepository
+    private val ingredientRepo: JpaIngredientRepository,
+    private var designRepo: JpaTacoRepository,
+    private val userRepo: UserRepository
 ) {
 
     @ModelAttribute(name = "order")
@@ -39,18 +43,22 @@ class DesignTacoController @Autowired constructor(
     }
 
     @GetMapping
-    fun showDesignForm(model: Model): String {
+    fun showDesignForm(model: Model, principal: Principal): String {
         loadIngredients(model)
+
+        val username = principal.name
+        val user: User? = userRepo.findByUsername(username)
+        model.addAttribute("user", user)
 
         return "design"
     }
 
     @PostMapping
     fun processDesign(
-            @Valid design: Taco,
-            errors: Errors,
-            model: Model,
-            @ModelAttribute order: Order
+        @Valid design: Taco,
+        errors: Errors,
+        model: Model,
+        @ModelAttribute order: Order
     ): String {
         if (errors.hasErrors()) {
             loadIngredients(model)
@@ -80,7 +88,7 @@ class DesignTacoController @Autowired constructor(
         val types: Array<Type> = Ingredient.Companion.Type.values()
         for (type in types) {
             model.addAttribute(type.toString().toLowerCase(),
-                    filterByType(ingredients, type))
+                filterByType(ingredients, type))
         }
     }
 }

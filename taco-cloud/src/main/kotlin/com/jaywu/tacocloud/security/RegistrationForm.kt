@@ -6,12 +6,12 @@ import org.springframework.security.crypto.password.PasswordEncoder
 data class RegistrationForm (
     private val username: String = "",
     private val password: String = "",
-    private val fullname: String? = null,
-    private val street: String? = null,
-    private val city: String? = null,
-    private val state: String? = null,
-    private val zip: String? = null,
-    private val phone: String? = null,
+    private val fullname: String = "",
+    private val street: String = "",
+    private val city: String = "",
+    private val state: String = "",
+    private val zip: String = "",
+    private val phone: String = "",
 ) {
 
     fun toUser(passwordEncoder: PasswordEncoder): User {
