@@ -10,7 +10,6 @@ import javax.validation.constraints.Digits
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Pattern
 
-
 @Entity
 @Table(name = "Taco_Order")
 data class Order(
@@ -46,9 +45,15 @@ data class Order(
         var ccCVV: String = "",
 
         @ManyToMany(targetEntity = Taco::class)
+        @JoinTable(
+            name = "Taco_Order_Tacos ",
+            joinColumns = [ JoinColumn(name = "tacoOrder") ],
+            inverseJoinColumns = [ JoinColumn(name = "taco") ]
+        )
         var tacos: MutableList<Taco> = mutableListOf(),
 
         @ManyToOne
+        @field:JoinColumn(name = "userId")
         var user: User? = null
 ): Serializable {
 

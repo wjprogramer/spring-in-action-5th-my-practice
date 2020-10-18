@@ -30,7 +30,10 @@ create table if not exists Taco_Order (
 	ccNumber varchar(16) not null,
 	ccExpiration varchar(5) not null,
 	ccCVV varchar(3) not null,
-    placedAt timestamp not null
+    placedAt timestamp not null,
+    -- added by jay
+    userId bigint(19)
+    --
 );
 
 create table if not exists Taco_Order_Tacos (
@@ -53,7 +56,6 @@ CREATE SEQUENCE HIBERNATE_SEQUENCE START WITH 1 INCREMENT BY 1;
 -- user
 create table if not exists `User` (
   id identity,
-
   username varchar(50),
   password varchar(61),
   fullname varchar(50),
@@ -63,3 +65,6 @@ create table if not exists `User` (
   zip varchar(10),
   phoneNumber varchar(20)
 );
+
+alter table Taco_Order
+    add foreign key (userId) references `User`(id);

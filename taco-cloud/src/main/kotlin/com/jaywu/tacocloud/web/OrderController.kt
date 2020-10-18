@@ -3,8 +3,11 @@ package com.jaywu.tacocloud.web
 import com.jaywu.tacocloud.Order
 import com.jaywu.tacocloud.User
 import com.jaywu.tacocloud.data.OrderRepository
+import com.jaywu.tacocloud.data.jpa.JpaOrderRepository
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.data.domain.PageRequest
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -18,7 +21,14 @@ private val logger = KotlinLogging.logger {}
 @Controller
 @RequestMapping("/orders")
 @SessionAttributes("order")
-class OrderController @Autowired constructor(private val orderRepo: OrderRepository) {
+@ConfigurationProperties(prefix = "taco.orders")
+class OrderController @Autowired constructor(private val orderRepo: JpaOrderRepository) {
+
+    private var pageSize = 20
+
+    fun setPageSize(pageSize: Int) {
+        this.pageSize = pageSize
+    }
 
     @GetMapping("/current")
     fun orderForm(@AuthenticationPrincipal user: User,
@@ -58,6 +68,19 @@ class OrderController @Autowired constructor(private val orderRepo: OrderReposit
 
         logger.info { "Order submitted: $order" }
         return "redirect:/"
+    }
+
+    @GetMapping
+    fun ordersForUser(
+        @AuthenticationPrincipal user: User,
+        model: Model
+    ): String {
+
+        val pageable = PageRequest.of(0,  pageSize)
+        model.addAttribute("orders",
+            orderRepo.findByUserOrderByPlacedAtDesc(user, pageable))
+
+        return "orderList"
     }
 
 }

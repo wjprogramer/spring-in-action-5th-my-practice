@@ -22,6 +22,9 @@ data class User(
     @GeneratedValue(strategy = GenerationType.AUTO)
     val id: Long? = null
 
+    @OneToMany(mappedBy = "user")
+    var orders: List<Order> = listOf()
+
     companion object {
         private const val serialVersionUID = 1L
     }

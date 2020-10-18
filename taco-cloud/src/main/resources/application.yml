@@ -24,6 +24,10 @@ server:
     key-store-password: letmin
     key-password: letmin
 
+taco:
+  orders:
+    pageSize: 10
+
 # for tutorial and useless -- Embed that placeholder amidst other text:
 greeting:
     welcome: You are using ${spring.application.name}}
