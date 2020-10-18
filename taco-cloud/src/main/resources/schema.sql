@@ -43,6 +43,23 @@ alter table Taco_Order_Tacos
 alter table Taco_Order_Tacos
     add foreign key (taco) references Taco(id);
 
--- for hibernate
+-- ************************************************ --
+--                  CREATED BY JAY                  --
+-- ************************************************ --
 
+-- hibernate
 CREATE SEQUENCE HIBERNATE_SEQUENCE START WITH 1 INCREMENT BY 1;
+
+-- user
+create table if not exists `User` (
+  id identity,
+
+  username varchar(50),
+  password varchar(61),
+  fullname varchar(50),
+  street varchar(50),
+  city varchar(50),
+  state varchar(2),
+  zip varchar(10),
+  phoneNumber varchar(20)
+);
