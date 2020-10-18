@@ -28,8 +28,16 @@ taco:
   orders:
     pageSize: 10
 
+logging:
+  level:
+    tacocloud: DEBUG
+
 # for tutorial and useless -- Embed that placeholder amidst other text:
 greeting:
     welcome: You are using ${spring.application.name}}
 
+# `---` 區分 Debug 與 Production 環境
+---
 
+# 可以在這邊定義 production-mode 的 props
+# 也可以去 application-prod.yml 定義屬性
