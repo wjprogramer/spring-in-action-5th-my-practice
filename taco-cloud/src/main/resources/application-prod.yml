@@ -1,4 +1,6 @@
 spring:
+  profiles: prod
+
   datasource:
     url: jdbc:mysql://localhost/tacocloud
     username: tacouser
