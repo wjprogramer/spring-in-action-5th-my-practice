@@ -9,10 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.Errors
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.SessionAttributes
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.bind.support.SessionStatus
 import javax.validation.Valid
 
@@ -24,7 +21,24 @@ private val logger = KotlinLogging.logger {}
 class OrderController @Autowired constructor(private val orderRepo: OrderRepository) {
 
     @GetMapping("/current")
-    fun orderForm(): String {
+    fun orderForm(@AuthenticationPrincipal user: User,
+                  @ModelAttribute order: Order ): String {
+        if (order.deliveryName.isEmpty()) {
+            order.deliveryName = user.fullname
+        }
+        if (order.deliveryStreet.isEmpty()) {
+            order.deliveryStreet = user.street
+        }
+        if (order.deliveryCity.isEmpty()) {
+            order.deliveryCity = user.city
+        }
+        if (order.deliveryState.isEmpty()) {
+            order.deliveryState = user.state
+        }
+        if (order.deliveryZip.isEmpty()) {
+            order.deliveryZip = user.zip
+        }
+
         return "orderForm"
     }
 
