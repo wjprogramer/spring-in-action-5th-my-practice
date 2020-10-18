@@ -23,3 +23,9 @@ server:
     key-store: file:mykeys.jks
     key-store-password: letmin
     key-password: letmin
+
+# for tutorial and useless -- Embed that placeholder amidst other text:
+greeting:
+    welcome: You are using ${spring.application.name}}
+
+
