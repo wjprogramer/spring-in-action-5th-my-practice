@@ -28,7 +28,7 @@ private val logger = KotlinLogging.logger {}
 @SessionAttributes("order")
 class DesignTacoController @Autowired constructor(
     private val ingredientRepo: JpaIngredientRepository,
-    private var designRepo: JpaTacoRepository,
+    private var tacoRepo: JpaTacoRepository,
     private val userRepo: UserRepository
 ) {
 
@@ -65,7 +65,7 @@ class DesignTacoController @Autowired constructor(
             return "design"
         }
 
-        val saved = designRepo.save(design)
+        val saved = tacoRepo.save(design)
         order.addDesign(saved)
 
         logger.info("Processing design: $design")

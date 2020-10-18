@@ -1,4 +1,4 @@
-package com.jaywu.tacocloud.web
+package com.jaywu.tacocloud.security
 
 import com.jaywu.tacocloud.User
 import com.jaywu.tacocloud.data.jpa.UserRepository
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserRepositoryUserDetailsService @Autowired constructor(private val userRepo: UserRepository) : UserDetailsService {
+
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(username: String): UserDetails? {
         val user: User? = userRepo.findByUsername(username)

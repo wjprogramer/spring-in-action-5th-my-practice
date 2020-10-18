@@ -16,7 +16,6 @@
     </form>
 
     <form method="POST" th:object="${taco}" th:action="@{/design}" id="tacoForm">
-
         <span class="validationError"
               th:if="${#fields.hasErrors('ingredients')}"
               th:errors="*{ingredients}">Ingredient Error</span>
