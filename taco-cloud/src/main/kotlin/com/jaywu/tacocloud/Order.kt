@@ -15,7 +15,7 @@ import javax.validation.constraints.Pattern
 data class Order(
         @field:Id
         @field:GeneratedValue(strategy = GenerationType.AUTO)
-        var id: Long = -1L,
+        var id: Long? = null,
 
         var placedAt: Date? = null,
 
