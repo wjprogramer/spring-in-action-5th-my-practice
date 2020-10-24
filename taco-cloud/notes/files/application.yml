@@ -1,5 +1,5 @@
 #spring:
-#  security:
+#  com.jaywu.tacos.security:
 #    user:
 #      name: buzz
 #      password: infinity
