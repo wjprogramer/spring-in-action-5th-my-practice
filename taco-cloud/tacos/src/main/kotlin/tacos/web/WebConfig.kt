@@ -1,8 +1,16 @@
 package tacos.web
 
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Description
+import org.springframework.web.servlet.ViewResolver
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
+import org.thymeleaf.spring5.SpringTemplateEngine
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver
+import org.thymeleaf.spring5.view.ThymeleafViewResolver
+import org.thymeleaf.templatemode.TemplateMode
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver
 
 @Configuration
 class WebConfig: WebMvcConfigurer {
@@ -14,6 +22,7 @@ class WebConfig: WebMvcConfigurer {
      */
     override fun addViewControllers(registry: ViewControllerRegistry) {
         super.addViewControllers(registry)
+        registry.addViewController("/").setViewName("home")
         registry.addViewController("/home").setViewName("home")
         registry.addViewController("/login")
     }

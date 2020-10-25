@@ -8,7 +8,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 /**
  * 只要是 Configuration class 皆可以實做 WebMvcConfigurer
  */
-
 @SpringBootApplication
 class TacoCloudApplication: WebMvcConfigurer {
 	override fun addViewControllers(registry: ViewControllerRegistry) {

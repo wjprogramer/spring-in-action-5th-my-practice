@@ -4,8 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>taco-cloud</artifactId>
+    <artifactId>tacocloud-web</artifactId>
     <packaging>jar</packaging>
+
+    <name>tacocloud-web</name>
+    <description>Taco Cloud Web</description>
 
     <parent>
         <groupId>com.jay-wu</groupId>
@@ -14,8 +17,8 @@
     </parent>
 
     <properties>
-        <java.version>11</java.version>
-        <kotlin.version>1.4.10</kotlin.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <dependencies>
@@ -23,24 +26,29 @@
         <dependency>
             <groupId>com.jay-wu</groupId>
             <artifactId>tacocloud-data</artifactId>
-            <version>${tacocloud.version}</version>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.jay-wu</groupId>
             <artifactId>tacocloud-domains</artifactId>
             <version>${tacocloud.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.jay-wu</groupId>
-            <artifactId>tacocloud-security</artifactId>
-            <version>${tacocloud.version}</version>
-        </dependency>
+
+        <!-- Necessary Boot starters -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
 
-        <!-- tmp -->
+        <!-- Misc -->
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>jquery</artifactId>
@@ -60,43 +68,18 @@
             <artifactId>thymeleaf-extras-springsecurity4</artifactId>
             <version>2.1.2.RELEASE</version>
         </dependency>
+
+        <!-- Test dependencies -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>htmlunit-driver</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
-    <build>
-        <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
-        <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-maven-plugin</artifactId>
-                <configuration>
-                    <args>
-                        <arg>-Xjsr305=strict</arg>
-                    </args>
-                    <compilerPlugins>
-                        <plugin>spring</plugin>
-                    </compilerPlugins>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.jetbrains.kotlin</groupId>
-                        <artifactId>kotlin-maven-allopen</artifactId>
-                        <version>${kotlin.version}</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-        </plugins>
-    </build>
 </project>

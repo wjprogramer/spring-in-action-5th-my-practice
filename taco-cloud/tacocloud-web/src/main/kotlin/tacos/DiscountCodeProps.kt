@@ -1,0 +1,4 @@
+package tacos
+
+class DiscountCodeProps {
+}
