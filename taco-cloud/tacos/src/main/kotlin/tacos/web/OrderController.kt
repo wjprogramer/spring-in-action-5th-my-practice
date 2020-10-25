@@ -14,67 +14,70 @@ import tacos.User
 import tacos.data.jpa.JpaOrderRepository
 import javax.validation.Valid
 
-private val logger = KotlinLogging.logger {}
-
-@Controller
-@RequestMapping("/orders")
-@SessionAttributes("order")
-class OrderController @Autowired constructor(private val orderRepo: JpaOrderRepository, private val props: OrderProps) {
-
-    @GetMapping("/current")
-    fun orderForm(@AuthenticationPrincipal user: User,
-                  @ModelAttribute order: Order): String {
-        if (order.deliveryName.isEmpty()) {
-            order.deliveryName = user.fullname
-        }
-        if (order.deliveryStreet.isEmpty()) {
-            order.deliveryStreet = user.street
-        }
-        if (order.deliveryCity.isEmpty()) {
-            order.deliveryCity = user.city
-        }
-        if (order.deliveryState.isEmpty()) {
-            order.deliveryState = user.state
-        }
-        if (order.deliveryZip.isEmpty()) {
-            order.deliveryZip = user.zip
-        }
-
-        return "orderForm"
-    }
-
-    @PostMapping
-    fun processOrder(
-        @Valid order: Order, errors: Errors, sessionStatus: SessionStatus,
-        @AuthenticationPrincipal user: User
-    ): String {
-        if (errors.hasErrors()) {
-            return "orderForm"
-        }
-
-        order.user = user
-
-        orderRepo.save(order)
-        sessionStatus.setComplete()
-
-        logger.info { "Order submitted: $order" }
-        return "redirect:/"
-    }
-
-    @GetMapping
-    fun ordersForUser(
-        @AuthenticationPrincipal user: User,
-        model: Model
-    ): String {
-
-        val pageable = PageRequest.of(0,  props.pageSize)
-        model.addAttribute("orders",
-            orderRepo.findByUserOrderByPlacedAtDesc(user, pageable))
-
-        return "orderList"
-    }
-
-}
+/**
+ * Ch2~5. 使用 View
+ */
+//@Controller
+//@RequestMapping("/orders")
+//@SessionAttributes("order")
+//class OrderController @Autowired constructor(private val orderRepo: JpaOrderRepository, private val props: OrderProps) {
+//
+//    private val logger = KotlinLogging.logger {}
+//
+//    @GetMapping("/current")
+//    fun orderForm(@AuthenticationPrincipal user: User,
+//                  @ModelAttribute order: Order): String {
+//        if (order.deliveryName.isEmpty()) {
+//            order.deliveryName = user.fullname
+//        }
+//        if (order.deliveryStreet.isEmpty()) {
+//            order.deliveryStreet = user.street
+//        }
+//        if (order.deliveryCity.isEmpty()) {
+//            order.deliveryCity = user.city
+//        }
+//        if (order.deliveryState.isEmpty()) {
+//            order.deliveryState = user.state
+//        }
+//        if (order.deliveryZip.isEmpty()) {
+//            order.deliveryZip = user.zip
+//        }
+//
+//        return "orderForm"
+//    }
+//
+//    @PostMapping
+//    fun processOrder(
+//        @Valid order: Order, errors: Errors, sessionStatus: SessionStatus,
+//        @AuthenticationPrincipal user: User
+//    ): String {
+//        if (errors.hasErrors()) {
+//            return "orderForm"
+//        }
+//
+//        order.user = user
+//
+//        orderRepo.save(order)
+//        sessionStatus.setComplete()
+//
+//        logger.info { "Order submitted: $order" }
+//        return "redirect:/"
+//    }
+//
+//    @GetMapping
+//    fun ordersForUser(
+//        @AuthenticationPrincipal user: User,
+//        model: Model
+//    ): String {
+//
+//        val pageable = PageRequest.of(0,  props.pageSize)
+//        model.addAttribute("orders",
+//            orderRepo.findByUserOrderByPlacedAtDesc(user, pageable))
+//
+//        return "orderList"
+//    }
+//
+//}
 
 /**
  * Ch2

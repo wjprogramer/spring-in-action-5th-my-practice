@@ -1,7 +1,8 @@
 package tacos.data.jpa
 
 import org.springframework.data.repository.CrudRepository
+import org.springframework.data.repository.PagingAndSortingRepository
 import tacos.Taco
 
-interface JpaTacoRepository: CrudRepository<Taco, Long> {
+interface JpaTacoRepository: PagingAndSortingRepository<Taco, Long> {
 }

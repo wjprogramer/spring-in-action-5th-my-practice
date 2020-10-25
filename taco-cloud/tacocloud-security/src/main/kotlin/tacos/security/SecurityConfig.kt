@@ -25,27 +25,37 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity?) {
         http!!
-            .authorizeRequests()
-                .antMatchers("/design", "/orders")
-                    .access("hasRole('ROLE_USER')")
-                .antMatchers("/", "/**").access("permitAll")
-
-            .and()
-                .formLogin()
-                    .loginPage("/login")
-
-            .and()
-                .logout()
-                    .logoutSuccessUrl("/")
+            .cors()
 
             .and()
                 .csrf()
-                    .ignoringAntMatchers("/h2-console/**")
+                    .disable()
 
-            .and()
-                .headers()
-                    .frameOptions()
-                        .sameOrigin()
+            .authorizeRequests()
+                .antMatchers("/", "/**").access("permitAll")
+
+//        http!!
+//            .authorizeRequests()
+//                .antMatchers("/design", "/orders")
+//                    .access("hasRole('ROLE_USER')")
+//                .antMatchers("/", "/**").access("permitAll")
+//
+//            .and()
+//                .formLogin()
+//                    .loginPage("/login")
+//
+//            .and()
+//                .logout()
+//                    .logoutSuccessUrl("/")
+//
+//            .and()
+//                .csrf()
+//                    .ignoringAntMatchers("/h2-console/**")
+//
+//            .and()
+//                .headers()
+//                    .frameOptions()
+//                        .sameOrigin()
     }
 
     override fun configure(auth: AuthenticationManagerBuilder?) {
