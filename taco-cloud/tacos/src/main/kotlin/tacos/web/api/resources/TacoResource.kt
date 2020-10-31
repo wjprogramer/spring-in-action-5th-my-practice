@@ -2,11 +2,12 @@ package tacos.web.api.resources
 
 import org.springframework.hateoas.CollectionModel
 import org.springframework.hateoas.RepresentationModel
-import tacos.Ingredient
+import org.springframework.hateoas.server.core.Relation
 import tacos.Taco
 import tacos.web.api.assemblers.IngredientResourceAssembler
 import java.util.*
 
+@Relation(value = "taco", collectionRelation = "tacos")
 class TacoResource(taco: Taco): RepresentationModel<TacoResource>() {
 
     companion object {
