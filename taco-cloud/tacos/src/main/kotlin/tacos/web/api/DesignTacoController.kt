@@ -4,7 +4,12 @@ import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
+import org.springframework.hateoas.*
 import org.springframework.hateoas.server.EntityLinks
+import org.springframework.hateoas.server.mvc.ControllerLinkBuilder
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn
+import org.springframework.hateoas.server.mvc.linkTo
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
@@ -42,10 +47,28 @@ class DesignTacoController constructor(private var tacoRepo: JpaTacoRepository) 
     lateinit var entityLinks: EntityLinks
 
     @GetMapping("/recent")
-    fun recentTacos(): List<Taco> {
+    fun recentTacos(): CollectionModel<EntityModel<Taco>> {
         val page = PageRequest.of(
             0, 12, Sort.by("createdAt").descending())
-        return tacoRepo.findAll(page).content
+
+        val tacos = tacoRepo.findAll(page).content
+        val recentResources = CollectionModel.wrap(tacos)
+
+        /** Hard code */
+//        recentResources.add(
+//            Link("https://localhost:8082/design/recent", "recents"))
+
+        /** Deprecated */
+//        ControllerLinkBuilder.linkTo(DesignTacoController::class.java)
+//            .slash("recent")
+//            .withRel("recents")
+
+        recentResources.add(
+            linkTo<DesignTacoController>{ methodOn(DesignTacoController::class.java).recentTacos() }
+                .withRel("recents")
+        )
+
+        return recentResources
     }
 
     @GetMapping("/{id}")
@@ -64,3 +87,12 @@ class DesignTacoController constructor(private var tacoRepo: JpaTacoRepository) 
     }
 
 }
+/**
+ * 6.1 基本 Get
+ */
+// @GetMapping("/recent")
+// fun recentTacos(): List<Taco> {
+//     val page = PageRequest.of(
+//         0, 12, Sort.by("createdAt").descending())
+//     return tacoRepo.findAll(page).content
+// }

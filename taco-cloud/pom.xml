@@ -17,6 +17,7 @@
 
 	<properties>
 		<tacocloud.version>${project.version}</tacocloud.version>
+		<spring.version>2.3.4.RELEASE</spring.version>
 	</properties>
 
 	<name>taco-cloud-parent</name>
