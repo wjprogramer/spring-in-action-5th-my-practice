@@ -24,6 +24,8 @@ import tacos.User
 import tacos.data.jpa.JpaIngredientRepository
 import tacos.data.jpa.JpaTacoRepository
 import tacos.data.jpa.UserRepository
+import tacos.web.api.assemblers.TacoResourceAssembler
+import tacos.web.api.resources.TacoResource
 import java.security.Principal
 import java.util.*
 import java.util.function.Consumer
@@ -46,13 +48,18 @@ class DesignTacoController constructor(private var tacoRepo: JpaTacoRepository) 
     @Autowired
     lateinit var entityLinks: EntityLinks
 
+    /**
+     * @return 6.2.1 return type => CollectionModel<EntityModel<Taco>>
+     */
     @GetMapping("/recent")
-    fun recentTacos(): CollectionModel<EntityModel<Taco>> {
+    fun recentTacos(): CollectionModel<TacoResource> {
         val page = PageRequest.of(
             0, 12, Sort.by("createdAt").descending())
 
         val tacos = tacoRepo.findAll(page).content
-        val recentResources = CollectionModel.wrap(tacos)
+        val recentResources = TacoResourceAssembler().toCollectionModel(tacos)
+
+//        val recentResources = CollectionModel.wrap(tacos)
 
         /** Hard code */
 //        recentResources.add(
