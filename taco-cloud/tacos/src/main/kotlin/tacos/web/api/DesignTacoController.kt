@@ -6,8 +6,6 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.hateoas.*
 import org.springframework.hateoas.server.EntityLinks
-import org.springframework.hateoas.server.mvc.ControllerLinkBuilder
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn
 import org.springframework.hateoas.server.mvc.linkTo
 import org.springframework.http.HttpStatus
