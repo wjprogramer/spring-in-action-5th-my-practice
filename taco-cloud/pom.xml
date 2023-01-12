@@ -31,7 +31,8 @@
 		<module>tacocloud-api</module>
 		<module>tacocloud-web</module>
 		<module>tacocloud-uis</module>
-	</modules>
+        <module>tacocloud-rest-client</module>
+    </modules>
 
 	<dependencies>
 		<dependency>
